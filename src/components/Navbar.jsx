@@ -1,30 +1,29 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Badge from "react-bootstrap/Badge"
+import Badge from "react-bootstrap/Badge";
 // import Login from "../Screens/Login";
-import Modal from '../Modal';
-import Cart from '../Screens/Cart';
+import Modal from "../Modal";
+import Cart from "../Screens/Cart";
 import { useCart } from "./ContextReducer";
 
 export default function Navbar() {
-  
-  const [cartView, setCartView] = useState(false)
+  const [search, setSearch] = useState("");
+  const [cartView, setCartView] = useState(false);
   const navigate = useNavigate();
-  
-  let data =  useCart();
+
+  let data = useCart();
 
   const handleLogoout = () => {
     localStorage.removeItem("token");
     navigate("/login");
-  }
- 
+  };
+
   return (
-    
     <div>
       <nav className="navbar navbar-expand-lg navbar-dark bg-success">
         <div className="container-fluid">
           <Link className="navbar-brand fs-1 fst-italic" to="/">
-            GoFood
+            FoodieExpress
           </Link>
           <button
             className="navbar-toggler"
@@ -37,6 +36,7 @@ export default function Navbar() {
           >
             <span className="navbar-toggler-icon"></span>
           </button>
+
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav me-auto mb-2">
               <li className="nav-item">
@@ -48,7 +48,7 @@ export default function Navbar() {
                   Home
                 </Link>
               </li>
-              
+
               {/* {localStorage.getItem("token") ? (
                 <li className="nav-item">
                   <Link
@@ -66,7 +66,10 @@ export default function Navbar() {
 
             {!localStorage.getItem("token") ? (
               <div className="d-flex">
-                <Link className="btn bg-white text-success mx-2 fw-bold"  to="/login">
+                <Link
+                  className="btn bg-white text-success mx-2 fw-bold"
+                  to="/login"
+                >
                   Login
                 </Link>
                 <Link
@@ -78,16 +81,29 @@ export default function Navbar() {
               </div>
             ) : (
               <div>
-                <div className="btn bg-white text-success mx-2 fw-bold" onClick={()=> setCartView(true)}>
-                  My Cart {" "}
-                  <Badge pill bg="danger">{data.length}</Badge>
+                <div
+                  className="btn bg-white text-success mx-2 fw-bold"
+                  onClick={() => setCartView(true)}
+                >
+                  My Cart{" "}
+                  <Badge pill bg="danger">
+                    {data.length}
+                  </Badge>
                 </div>
 
-                {cartView ? <Modal onClose={()=>setCartView(false)}> <Cart/> </Modal> : null}
+                {cartView ? (
+                  <Modal onClose={() => setCartView(false)}>
+                    {" "}
+                    <Cart />{" "}
+                  </Modal>
+                ) : null}
 
-                <div className="btn bg-white text-danger mx-2 fw-bold" onClick={handleLogoout}>
+                <div
+                  className="btn bg-white text-danger mx-2 fw-bold"
+                  onClick={handleLogoout}
+                >
                   Logout
-                </div>          
+                </div>
               </div>
             )}
           </div>
